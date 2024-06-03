@@ -3,45 +3,33 @@
 //ExceptionIntro();
 
 
-try
-{
-    Find();
-}
-catch (Exception exception)
-{
-    Console.WriteLine(exception.Message);
-}
+//TryCatch();
 
 //Method
-HandleException(() =>
-{
-    Find();
-});
+//ActionDemo();
 
 //Genellikle temel classa konulur
-static void HandleException(Action action)
-{
-    try
-    {
-        action.Invoke();
-    }
-    catch (Exception exception)
-    {
-        Console.WriteLine(exception.Message);
-    }
-}
 
-void Find()
+
+Func<int, int, int> add = Topla;
+Console.WriteLine(add(3,5));
+Console.WriteLine(Topla(2,5));
+
+Func<int> getRandomNumber = delegate()
 {
-    List<string> students = new List<string> { "Yakup", "Yusuf", "Oğuz" };
-    if (!students.Contains("Ahmet"))
-    {
-        throw new RecordNotFoundException("Record Not Found!"); 
-    }
-    else
-    {
-        Console.WriteLine("Record Found!");
-    }
+    Random random = new Random();
+    return random.Next(1, 100);
+};
+Console.WriteLine(getRandomNumber());
+Thread.Sleep(1000);
+Func<int> getRandomNumber2 = () => new Random().Next(1, 100);
+Console.WriteLine(getRandomNumber2());
+
+
+
+static int Topla(int x, int y)
+{
+    return x + y;
 }
 
 void ExceptionIntro()
@@ -62,6 +50,55 @@ void ExceptionIntro()
     catch (Exception exception)
     {
         Console.WriteLine(exception.Message);
+    }
+}
+
+void TryCatch()
+{
+    try
+    {
+        //Find();
+    }
+    catch (RecordNotFoundException exception)
+    {
+        Console.WriteLine(exception.Message);
+    }
+    catch (Exception exception)
+    {
+
+    }
+}
+
+void ActionDemo()
+{
+    HandleException(() =>
+    {
+        Find();
+    });
+
+    static void HandleException(Action action)
+    {
+        try
+        {
+            action.Invoke();
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+        }
+    }
+
+    void Find()
+    {
+        List<string> students = new List<string> { "Yakup", "Yusuf", "Oğuz" };
+        if (!students.Contains("Ahmet"))
+        {
+            throw new RecordNotFoundException("Record Not Found!"); 
+        }
+        else
+        {
+            Console.WriteLine("Record Found!");
+        }
     }
 }
 
